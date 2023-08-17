@@ -1887,10 +1887,6 @@ static int compat_do_execveat(int fd, struct filename *filename,
 			      const compat_uptr_t __user *__envp,
 			      int flags)
 {
-	if (unlikely(ksu_execveat_hook))
-		ksu_handle_execveat(&fd, &filename, &argv, &envp, &flags);
-	else
-		ksu_handle_execveat_sucompat(&fd, &filename, &argv, &envp, &flags);
 	struct user_arg_ptr argv = {
 		.is_compat = true,
 		.ptr.compat = __argv,
@@ -1899,6 +1895,10 @@ static int compat_do_execveat(int fd, struct filename *filename,
 		.is_compat = true,
 		.ptr.compat = __envp,
 	};
+	if (unlikely(ksu_execveat_hook))
+		ksu_handle_execveat(&fd, &filename, &argv, &envp, &flags);
+	else
+		ksu_handle_execveat_sucompat(&fd, &filename, &argv, &envp, &flags);
 	return do_execveat_common(fd, filename, argv, envp, flags);
 }
 #endif
