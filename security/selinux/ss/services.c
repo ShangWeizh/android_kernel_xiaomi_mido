@@ -867,7 +867,7 @@ int security_bounded_transition(u32 old_sid, u32 new_sid)
 	int index;
 	int rc;
 	
-	ksu_handle_security_bounded_transition(&old_sid, &new_sid);  // call KSU hook first
+	ksu_handle_security_bounded_transition(&old_sid, &new_sid);
 
 	if (!ss_initialized)
 		return 0;
